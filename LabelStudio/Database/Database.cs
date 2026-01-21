@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Xml.Linq;
 
-namespace LabelStudio.DB
+namespace LabelStudio.Database
 {
     public class Database
     {

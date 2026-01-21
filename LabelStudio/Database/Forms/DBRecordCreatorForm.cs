@@ -1,4 +1,4 @@
-﻿using LabelStudio.DB;
+﻿using LabelStudio.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,12 +8,12 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LabelStudio
+namespace LabelStudio.Database
 {
-    public partial class DatabaseNewRecordForm : Form
+    public partial class DBRecordCreatorForm : Form
     {
         private Database _currentDB;
-        public DatabaseNewRecordForm(Database currentDB)
+        public DBRecordCreatorForm(Database currentDB)
         {
             InitializeComponent();
             _currentDB = currentDB;

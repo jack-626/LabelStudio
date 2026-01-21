@@ -8,13 +8,13 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace LabelStudio.DB
+namespace LabelStudio.Database
 {
-    public partial class DatabaseForm : Form
+    public partial class DBViewerForm : Form
     {
         private Database _currentDB;
 
-        public DatabaseForm()
+        public DBViewerForm()
         {
             InitializeComponent();
             _currentDB = new Database("defaultDB");
@@ -28,7 +28,7 @@ namespace LabelStudio.DB
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DatabaseNewRecordForm newRecordForm = new DatabaseNewRecordForm(_currentDB);
+            DBRecordCreatorForm newRecordForm = new DBRecordCreatorForm(_currentDB);
             newRecordForm.ShowDialog();
         }
     }

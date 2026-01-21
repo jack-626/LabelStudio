@@ -1,6 +1,6 @@
-﻿namespace LabelStudio.DB
+﻿namespace LabelStudio.Database
 {
-    partial class DatabaseForm
+    partial class DBViewerForm
     {
         /// <summary>
         /// Required designer variable.
