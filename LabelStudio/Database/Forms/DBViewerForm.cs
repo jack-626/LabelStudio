@@ -26,35 +26,19 @@ namespace LabelStudio.Database.Forms
             dataGridView1.DataSource = _currentDB.LoadDB();
             this.Text = "LabelStudio - " + _currentDB._dbName;
         }
-        private void RefreshGrid()
+        public void RefreshGrid()
         {
             dataGridView1.DataSource = _currentDB.LoadDB();
             this.Text = "LabelStudio - " + _currentDB._dbName;
         }
-        private void NewRecord()
-        {
-            DBRecordCreatorForm newRecordForm = new DBRecordCreatorForm(_currentDB);
-            newRecordForm.ShowDialog();
-        }
-        private void DeleteRecord()
-        {
-            //Check a row is selected, if not return.
-            if (dataGridView1.SelectedRows.Count == 0)
-            {
-                return;
-            }
 
-            //Get the ID of the currently selected row
-            int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
-
-            var confirm = MessageBox.Show("Are you sure?\nDeleting a record is permanent.", "Delete Record", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
         // File -> New
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var form = new DBNewDatabase())
             {
-                if (form.ShowDialog() == DialogResult.OK)
+                if(form.ShowDialog() == DialogResult.OK)
                 {
                     _currentDB = new Database(form.newDBName);
                     RefreshGrid();
@@ -65,16 +49,6 @@ namespace LabelStudio.Database.Forms
         //Right Click -> New Record
         private void newRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NewRecord();
-        }
-        //Top Menu - Database -> New Record
-        private void newRecordToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            NewRecord();
-        }
-        //Top Menu - Database -> New Record
-        private void newRecordToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
             DBRecordCreatorForm newRecordForm = new DBRecordCreatorForm(_currentDB);
             newRecordForm.ShowDialog();
         }
@@ -82,8 +56,11 @@ namespace LabelStudio.Database.Forms
         //Right Click -> Delete Record
         private void deleteRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DeleteRecord();
-        }
+            //Check a row is selected, if not return.
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                return;
+            }
 
             //Get the ID of the currently selected row
             int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
@@ -103,11 +80,6 @@ namespace LabelStudio.Database.Forms
         {
             RefreshGrid();
         }
-        //Top Menu - Database -> Refresh View
-        private void refreshViewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
 
         //When right clicking on a cell, make sure it selects the whole row.
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -119,7 +91,5 @@ namespace LabelStudio.Database.Forms
                 dataGridView1.CurrentCell = dataGridView1.Rows[e.RowIndex].Cells[0];
             }
         }
-
-
     }
 }
