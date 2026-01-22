@@ -49,14 +49,7 @@ namespace LabelStudio.Database.Forms
 
             var confirm = MessageBox.Show("Are you sure?\nDeleting a record is permanent.", "Delete Record", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            if (confirm == DialogResult.Yes)
-            {
-                _currentDB.DeleteRecord(id);
-                RefreshGrid();
-            }
-        }
-
-        //Top Menu - File -> New
+        // File -> New
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var form = new DBNewDatabase())
@@ -79,6 +72,12 @@ namespace LabelStudio.Database.Forms
         {
             NewRecord();
         }
+        //Top Menu - Database -> New Record
+        private void newRecordToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            DBRecordCreatorForm newRecordForm = new DBRecordCreatorForm(_currentDB);
+            newRecordForm.ShowDialog();
+        }
 
         //Right Click -> Delete Record
         private void deleteRecordToolStripMenuItem_Click(object sender, EventArgs e)
@@ -86,7 +85,20 @@ namespace LabelStudio.Database.Forms
             DeleteRecord();
         }
 
-        //Right Click -> Refresh View
+            //Get the ID of the currently selected row
+            int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
+
+            var confirm = MessageBox.Show("Are you sure?\nDeleting a record is permanent.", "Delete Record", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (confirm == DialogResult.Yes)
+            {
+                _currentDB.DeleteRecord(id);
+                RefreshGrid();
+            }
+
+        }
+
+        //Right Click -> Refresh
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RefreshGrid();
@@ -94,7 +106,7 @@ namespace LabelStudio.Database.Forms
         //Top Menu - Database -> Refresh View
         private void refreshViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RefreshGrid();
+
         }
 
         //When right clicking on a cell, make sure it selects the whole row.
