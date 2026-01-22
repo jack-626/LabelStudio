@@ -1,4 +1,4 @@
-﻿namespace LabelStudio.Database
+﻿namespace LabelStudio.Database.Forms
 {
     partial class DBRecordCreatorForm
     {

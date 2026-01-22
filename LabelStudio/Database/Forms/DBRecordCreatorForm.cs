@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LabelStudio.Database
+namespace LabelStudio.Database.Forms
 {
     public partial class DBRecordCreatorForm : Form
     {
@@ -33,6 +33,8 @@ namespace LabelStudio.Database
             plant.Type = type;
 
             _currentDB.AddRecord(plant);
+
+
         }
     }
 }

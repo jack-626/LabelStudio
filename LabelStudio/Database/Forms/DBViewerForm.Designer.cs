@@ -1,4 +1,4 @@
-﻿namespace LabelStudio.Database
+﻿namespace LabelStudio.Database.Forms
 {
     partial class DBViewerForm
     {
@@ -28,13 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             newToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
             dataGridView1 = new DataGridView();
+            gridContext = new ContextMenuStrip(components);
+            newRecordToolStripMenuItem = new ToolStripMenuItem();
+            deleteRecordToolStripMenuItem = new ToolStripMenuItem();
+            editRecordToolStripMenuItem = new ToolStripMenuItem();
+            refreshToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            gridContext.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -56,25 +63,68 @@
             // newToolStripMenuItem
             // 
             newToolStripMenuItem.Name = "newToolStripMenuItem";
-            newToolStripMenuItem.Size = new Size(180, 22);
+            newToolStripMenuItem.Size = new Size(103, 22);
             newToolStripMenuItem.Text = "New";
             newToolStripMenuItem.Click += newToolStripMenuItem_Click;
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(103, 22);
             openToolStripMenuItem.Text = "Open";
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 27);
+            dataGridView1.ContextMenuStrip = gridContext;
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(0, 24);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1022, 764);
+            dataGridView1.ReadOnly = true;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.ShowCellToolTips = false;
+            dataGridView1.ShowEditingIcon = false;
+            dataGridView1.Size = new Size(1051, 779);
             dataGridView1.TabIndex = 1;
+            dataGridView1.CellMouseDown += dataGridView1_CellMouseDown;
             // 
-            // DatabaseForm
+            // gridContext
+            // 
+            gridContext.Items.AddRange(new ToolStripItem[] { newRecordToolStripMenuItem, deleteRecordToolStripMenuItem, editRecordToolStripMenuItem, refreshToolStripMenuItem });
+            gridContext.Name = "gridContext";
+            gridContext.Size = new Size(181, 114);
+            // 
+            // newRecordToolStripMenuItem
+            // 
+            newRecordToolStripMenuItem.Name = "newRecordToolStripMenuItem";
+            newRecordToolStripMenuItem.Size = new Size(180, 22);
+            newRecordToolStripMenuItem.Text = "New Record";
+            newRecordToolStripMenuItem.Click += newRecordToolStripMenuItem_Click;
+            // 
+            // deleteRecordToolStripMenuItem
+            // 
+            deleteRecordToolStripMenuItem.Name = "deleteRecordToolStripMenuItem";
+            deleteRecordToolStripMenuItem.Size = new Size(180, 22);
+            deleteRecordToolStripMenuItem.Text = "Delete Record";
+            deleteRecordToolStripMenuItem.Click += deleteRecordToolStripMenuItem_Click;
+            // 
+            // editRecordToolStripMenuItem
+            // 
+            editRecordToolStripMenuItem.Name = "editRecordToolStripMenuItem";
+            editRecordToolStripMenuItem.Size = new Size(180, 22);
+            editRecordToolStripMenuItem.Text = "Edit Record";
+            // 
+            // refreshToolStripMenuItem
+            // 
+            refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            refreshToolStripMenuItem.Size = new Size(180, 22);
+            refreshToolStripMenuItem.Text = "Refresh";
+            refreshToolStripMenuItem.Click += refreshToolStripMenuItem_Click;
+            // 
+            // DBViewerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -82,12 +132,13 @@
             Controls.Add(dataGridView1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
-            Name = "DatabaseForm";
+            Name = "DBViewerForm";
             Text = "Database";
             Load += DatabaseForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            gridContext.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -99,5 +150,10 @@
         private DataGridView dataGridView1;
         private ToolStripMenuItem newToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
+        private ContextMenuStrip gridContext;
+        private ToolStripMenuItem newRecordToolStripMenuItem;
+        private ToolStripMenuItem deleteRecordToolStripMenuItem;
+        private ToolStripMenuItem editRecordToolStripMenuItem;
+        private ToolStripMenuItem refreshToolStripMenuItem;
     }
 }

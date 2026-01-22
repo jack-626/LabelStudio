@@ -11,13 +11,15 @@ namespace LabelStudio.Database
     public class Database
     {
         //Folder where databases are stored.
-        private static string dbFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "databases");
+        public static string dbFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "databases");
         private string _dbPath;
+        public string _dbName { get; private set; }
 
         // Database Constructor
         public Database(string dbName)
         {
             _dbPath = Path.Combine(dbFolder, dbName + ".db");
+            _dbName = dbName;
 
             //Creating database folder.
             if (!Directory.Exists(dbFolder))
@@ -42,7 +44,7 @@ namespace LabelStudio.Database
                 using (var connection = new SQLiteConnection($"Data Source={_dbPath}"))
                 {
                     connection.Open();
-                    var cmd = connection.CreateCommand();
+                    using var cmd = connection.CreateCommand();
                     cmd.CommandText =
                     @"
                 CREATE TABLE ""Plants"" (
@@ -64,6 +66,7 @@ namespace LabelStudio.Database
                 Debug.WriteLine("[ERROR] " + ex.Message);
             }
         }
+
         //Load a Database
         public DataTable LoadDB()
         {
@@ -74,7 +77,7 @@ namespace LabelStudio.Database
                 Debug.WriteLine("[ERROR] Cannot load database, doesn't exist: " + _dbPath);
                 return table;
             }
-
+            
             try
             {
                 using (var connection = new SQLiteConnection($"Data Source={_dbPath}"))
@@ -107,7 +110,7 @@ namespace LabelStudio.Database
                 using (var connection = new SQLiteConnection($"Data Source={_dbPath}"))
                 {
                     connection.Open();
-                    var cmd = connection.CreateCommand();
+                    using var cmd = connection.CreateCommand();
 
                     // Add all values from the plant to add
                     cmd.CommandText =
@@ -117,6 +120,32 @@ namespace LabelStudio.Database
                     cmd.Parameters.AddWithValue("$type", plantToAdd.Type);
 
                     cmd.ExecuteNonQuery();
+                }
+            } catch (Exception ex)
+            {
+                Debug.WriteLine("[ERROR] " + ex.Message);
+            }
+        }
+        //Delete a record
+        public void DeleteRecord(int id)
+        {
+            if (!File.Exists(_dbPath))
+            {
+                Debug.WriteLine("[ERROR] Cannot load database, doesn't exist: " + _dbPath);
+                return;
+            }
+
+            try
+            {
+                using (var connection = new SQLiteConnection($"Data Source={_dbPath}"))
+                {
+                    connection.Open();
+                    using var cmd = connection.CreateCommand();
+                    cmd.CommandText = "DELETE FROM Plants WHERE ID = $id";
+                    cmd.Parameters.AddWithValue("$id", id);
+                    int result = cmd.ExecuteNonQuery();
+                    MessageBox.Show(Convert.ToString(result));
+
                 }
             } catch (Exception ex)
             {
