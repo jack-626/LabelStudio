@@ -33,12 +33,12 @@ namespace LabelStudio.Database.Forms
         }
 
 
-        // File -> New
+        //Top Menu - File -> New
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var form = new DBNewDatabase())
             {
-                if(form.ShowDialog() == DialogResult.OK)
+                if (form.ShowDialog() == DialogResult.OK)
                 {
                     _currentDB = new Database(form.newDBName);
                     RefreshGrid();
@@ -48,6 +48,12 @@ namespace LabelStudio.Database.Forms
 
         //Right Click -> New Record
         private void newRecordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DBRecordCreatorForm newRecordForm = new DBRecordCreatorForm(_currentDB);
+            newRecordForm.ShowDialog();
+        }
+        //Top Menu - Database -> New Record
+        private void newRecordToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             DBRecordCreatorForm newRecordForm = new DBRecordCreatorForm(_currentDB);
             newRecordForm.ShowDialog();
@@ -75,10 +81,15 @@ namespace LabelStudio.Database.Forms
 
         }
 
-        //Right Click -> Refresh
+        //Right Click -> Refresh View
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RefreshGrid();
+        }
+        //Top Menu - Database -> Refresh View
+        private void refreshViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         //When right clicking on a cell, make sure it selects the whole row.
@@ -91,5 +102,7 @@ namespace LabelStudio.Database.Forms
                 dataGridView1.CurrentCell = dataGridView1.Rows[e.RowIndex].Cells[0];
             }
         }
+
+
     }
 }
