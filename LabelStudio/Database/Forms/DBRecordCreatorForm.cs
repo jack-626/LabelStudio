@@ -33,8 +33,11 @@ namespace LabelStudio.Database.Forms
             plant.Type = type;
 
             _currentDB.AddRecord(plant);
+        }
 
-
+        private void DBRecordCreatorForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
         }
     }
 }

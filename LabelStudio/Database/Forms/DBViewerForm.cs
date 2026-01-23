@@ -47,7 +47,10 @@ namespace LabelStudio.Database.Forms
         {
             using (var form = new DBRecordCreatorForm(_currentDB))
             {
-                form.ShowDialog();
+                if(form.ShowDialog() == DialogResult.OK)
+                {
+                    RefreshView();
+                }
             }
         }
         private void DeleteRecord()

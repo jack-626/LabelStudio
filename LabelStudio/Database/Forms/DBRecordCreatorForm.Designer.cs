@@ -59,7 +59,7 @@
             btnAddRecord.UseVisualStyleBackColor = true;
             btnAddRecord.Click += btnAddRecord_Click;
             // 
-            // DatabaseNewRecordForm
+            // DBRecordCreatorForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -67,8 +67,9 @@
             Controls.Add(btnAddRecord);
             Controls.Add(lblType);
             Controls.Add(txtType);
-            Name = "DatabaseNewRecordForm";
+            Name = "DBRecordCreatorForm";
             Text = "DatabaseNewRecordForm";
+            FormClosed += DBRecordCreatorForm_FormClosed;
             ResumeLayout(false);
             PerformLayout();
         }

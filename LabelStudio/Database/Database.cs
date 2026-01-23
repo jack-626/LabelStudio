@@ -143,9 +143,11 @@ namespace LabelStudio.Database
                     using var cmd = connection.CreateCommand();
                     cmd.CommandText = "DELETE FROM Plants WHERE ID = $id";
                     cmd.Parameters.AddWithValue("$id", id);
+                    
+                    /* For debug only - 1 is success, 0 is fail. 
                     int result = cmd.ExecuteNonQuery();
                     MessageBox.Show(Convert.ToString(result));
-
+                    */
                 }
             } catch (Exception ex)
             {
