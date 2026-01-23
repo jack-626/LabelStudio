@@ -17,24 +17,38 @@ namespace LabelStudio.Database.Forms
         public DBViewerForm()
         {
             InitializeComponent();
+            //Create and use a template database on startup.
             _currentDB = new Database("defaultDB");
         }
 
         private void DatabaseForm_Load(object sender, EventArgs e)
         {
+            //Setup data grid view columns and load data source.
             dataGridView1.AutoGenerateColumns = true;
             dataGridView1.DataSource = _currentDB.LoadDB();
+
+            //Hide the ID column as it doesnt need to be seen
+            if (dataGridView1.Columns.Contains("ID"))
+            {
+                dataGridView1.Columns["ID"].Visible = false;
+            }
+
+            //Set form title
             this.Text = "LabelStudio - " + _currentDB._dbName;
         }
+        //Refresh the data grid view
         private void RefreshView()
         {
             dataGridView1.DataSource = _currentDB.LoadDB();
             this.Text = "LabelStudio - " + _currentDB._dbName;
         }
+        //Open the new record form.
         private void NewRecord()
         {
-            DBRecordCreatorForm newRecordForm = new DBRecordCreatorForm(_currentDB);
-            newRecordForm.ShowDialog();
+            using (var form = new DBRecordCreatorForm(_currentDB))
+            {
+                form.ShowDialog();
+            }
         }
         private void DeleteRecord()
         {
@@ -57,6 +71,7 @@ namespace LabelStudio.Database.Forms
         }
 
         // File -> New
+        // Opens the new database form.
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var form = new DBNewDatabase())
@@ -94,16 +109,15 @@ namespace LabelStudio.Database.Forms
             {
                 dataGridView1.ClearSelection();
                 dataGridView1.Rows[e.RowIndex].Selected = true;
-                dataGridView1.CurrentCell = dataGridView1.Rows[e.RowIndex].Cells[0];
             }
         }
 
-        //Database -> New Record
+        //Edit -> New Record
         private void newRecordToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             NewRecord();
         }
-        //Database -> Refresh View
+        //Edit -> Refresh View
         private void refreshViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RefreshView();

@@ -66,22 +66,22 @@
             // newToolStripMenuItem
             // 
             newToolStripMenuItem.Name = "newToolStripMenuItem";
-            newToolStripMenuItem.Size = new Size(103, 22);
-            newToolStripMenuItem.Text = "New";
+            newToolStripMenuItem.Size = new Size(180, 22);
+            newToolStripMenuItem.Text = "New Database";
             newToolStripMenuItem.Click += newToolStripMenuItem_Click;
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(103, 22);
-            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Text = "Open Database";
             // 
             // databaseToolStripMenuItem
             // 
             databaseToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newRecordToolStripMenuItem1, refreshViewToolStripMenuItem });
             databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
-            databaseToolStripMenuItem.Size = new Size(67, 20);
-            databaseToolStripMenuItem.Text = "Database";
+            databaseToolStripMenuItem.Size = new Size(39, 20);
+            databaseToolStripMenuItem.Text = "Edit";
             // 
             // newRecordToolStripMenuItem1
             // 
@@ -119,32 +119,32 @@
             // 
             gridContext.Items.AddRange(new ToolStripItem[] { newRecordToolStripMenuItem, deleteRecordToolStripMenuItem, editRecordToolStripMenuItem, refreshToolStripMenuItem });
             gridContext.Name = "gridContext";
-            gridContext.Size = new Size(181, 114);
+            gridContext.Size = new Size(148, 92);
             // 
             // newRecordToolStripMenuItem
             // 
             newRecordToolStripMenuItem.Name = "newRecordToolStripMenuItem";
-            newRecordToolStripMenuItem.Size = new Size(180, 22);
+            newRecordToolStripMenuItem.Size = new Size(147, 22);
             newRecordToolStripMenuItem.Text = "New Record";
             newRecordToolStripMenuItem.Click += newRecordToolStripMenuItem_Click;
             // 
             // deleteRecordToolStripMenuItem
             // 
             deleteRecordToolStripMenuItem.Name = "deleteRecordToolStripMenuItem";
-            deleteRecordToolStripMenuItem.Size = new Size(180, 22);
+            deleteRecordToolStripMenuItem.Size = new Size(147, 22);
             deleteRecordToolStripMenuItem.Text = "Delete Record";
             deleteRecordToolStripMenuItem.Click += deleteRecordToolStripMenuItem_Click;
             // 
             // editRecordToolStripMenuItem
             // 
             editRecordToolStripMenuItem.Name = "editRecordToolStripMenuItem";
-            editRecordToolStripMenuItem.Size = new Size(180, 22);
+            editRecordToolStripMenuItem.Size = new Size(147, 22);
             editRecordToolStripMenuItem.Text = "Edit Record";
             // 
             // refreshToolStripMenuItem
             // 
             refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            refreshToolStripMenuItem.Size = new Size(180, 22);
+            refreshToolStripMenuItem.Size = new Size(147, 22);
             refreshToolStripMenuItem.Text = "Refresh View";
             refreshToolStripMenuItem.Click += refreshToolStripMenuItem_Click;
             // 
