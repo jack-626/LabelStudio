@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LabelStudio.Printing;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,18 +11,17 @@ namespace LabelStudio.LabelDesigner
         public float LabelHeight { get; set; }
         public List<LabelElement> Elements { get; set; } = new();
 
-
         // Label sheet properties
-        public float PageWidthMM = 210f;
-        public float PageHeightMM = 297f;
+        //public float PageWidthMM { get; set; } = 210f;
+        //public float PageHeightMM { get; set; } = 297f;
 
-        public int Columns;
-        public int Rows;
+        public int Columns { get; set; }
+        public int Rows { get; set; }
 
-        public float GapXmm;
-        public float GapYmm;
+        public float GapX { get; set; }
+        public float GapY { get; set; }
 
-        public float MarginLeftMM;
-        public float MarginTopMM;
+        public float MarginLeft { get; set; }
+        public float MarginTop { get; set; }
     }
 }

@@ -43,7 +43,6 @@ namespace LabelStudio.LabelDesigner
                 //Reverse translation
                 g.TranslateTransform(-(rect.X + rect.Width / 2), -(rect.Y + rect.Height / 2));
 
-
                 //Draw black rectangle around element
                 g.DrawRectangle(Pens.Black, rect);
 

@@ -79,7 +79,7 @@
             panelDesigner.ContextMenuStrip = designPanelContextMenuStrip;
             panelDesigner.Location = new Point(12, 27);
             panelDesigner.Name = "panelDesigner";
-            panelDesigner.Size = new Size(574, 313);
+            panelDesigner.Size = new Size(776, 823);
             panelDesigner.TabIndex = 2;
             panelDesigner.Paint += panelDesigner_Paint;
             panelDesigner.MouseDown += panelDesigner_MouseDown;
@@ -125,6 +125,7 @@
             // 
             // printDocument1
             // 
+            printDocument1.BeginPrint += printDocument1_BeginPrint;
             printDocument1.PrintPage += printDocument1_PrintPage;
             // 
             // LabelDesigner

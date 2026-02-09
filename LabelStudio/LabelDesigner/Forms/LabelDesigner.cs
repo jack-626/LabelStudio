@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LabelStudio.Printing;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace LabelStudio.LabelDesigner.Forms
 {
@@ -23,6 +25,10 @@ namespace LabelStudio.LabelDesigner.Forms
             InitializeComponent();
             InitTemplate();
 
+            printDocument1.PrinterSettings.Duplex = Duplex.Vertical;
+
+            Debug.WriteLine(printDocument1.PrinterSettings.CanDuplex);
+
             panelDesigner.BackColor = Color.White;
             panelDesigner.BorderStyle = BorderStyle.FixedSingle;
 
@@ -35,14 +41,14 @@ namespace LabelStudio.LabelDesigner.Forms
         {
             _template = new LabelTemplate
             {
-                LabelWidth = 100f,
-                LabelHeight = 50f,
-                Columns = 2,
-                Rows = 5,
-                GapXmm = 0f,
-                GapYmm = 0f,
-                MarginLeftMM = 0f,
-                MarginTopMM = 0f
+                LabelWidth = 40f,
+                LabelHeight = 136f,
+                Columns = 5,
+                Rows = 2,
+                GapX = 1f,
+                GapY = 2f,
+                MarginLeft = 2f,
+                MarginTop = 10f
             };
         }
 
@@ -57,7 +63,7 @@ namespace LabelStudio.LabelDesigner.Forms
             //draw border rectangle
             float w = LabelRenderer.MMtoPx(_template.LabelWidth, _designDPI);
             float h = LabelRenderer.MMtoPx(_template.LabelHeight, _designDPI);
-            e.Graphics.DrawRectangle(Pens.Black, 0, 0, w, h);
+            //e.Graphics.DrawRectangle(Pens.Black, 0, 0, w, h);
 
             //Highlight selected element
             if (_selectedElement != null)
@@ -87,7 +93,7 @@ namespace LabelStudio.LabelDesigner.Forms
             for (int i = _template.Elements.Count - 1; i >= 0; i--)
             {
                 var element = _template.Elements[i];
-                if(_designRenderer.HitTestElement(element, e.Location, _designDPI))
+                if (_designRenderer.HitTestElement(element, e.Location, _designDPI))
                 {
                     _selectedElement = element;
                     _dragging = true;
@@ -126,32 +132,24 @@ namespace LabelStudio.LabelDesigner.Forms
             _dragging = false;
         }
 
+
+        private int _pageIndex;
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
         {
-            var printRenderer = new LabelRenderer();
 
-            var dpi = e.Graphics.DpiX;
-
-            for (int row = 0; row < _template.Rows; row++)
+            var printRenderer = new PrintRenderer();
+            //printRenderer.DrawPage(e.Graphics, e.Graphics.DpiX, _template, true);
+            //e.HasMorePages = false;
+            if (_pageIndex == 0)
             {
-                for (int col = 0; col < _template.Columns; col++)
-                {
-                    float offsetX = _template.MarginLeftMM + col * (_template.LabelWidth + _template.GapXmm);
-                    float offsetY = _template.MarginTopMM + row * (_template.LabelHeight + _template.GapYmm);
-
-                    // show label bounds
-                    float x = LabelRenderer.MMtoPx(offsetX, dpi);
-                    float y = LabelRenderer.MMtoPx(offsetY, dpi);
-                    float w = LabelRenderer.MMtoPx(_template.LabelWidth, dpi);
-                    float h = LabelRenderer.MMtoPx(_template.LabelHeight, dpi);
-
-                    using var pen = new Pen(Color.Gray, 5);
-                    e.Graphics.DrawRectangle(pen, x, y, w, h);
-
-                    printRenderer.DrawElements(e.Graphics, e.Graphics.DpiX, _template, offsetX, offsetY);
-                }
+                printRenderer.DrawPage(e.Graphics, e.Graphics.DpiX, _template, true);
             }
-            e.HasMorePages = false;
+            else if (_pageIndex == 1)
+            {
+                printRenderer.DrawPage(e.Graphics, e.Graphics.DpiX, _template, false);
+            }
+            _pageIndex++;
+            e.HasMorePages = _pageIndex < 2;
         }
 
         // Right Click -> New Element -> Text
@@ -162,7 +160,7 @@ namespace LabelStudio.LabelDesigner.Forms
                 Text = "Unassigned Text Element",
                 X = 0,
                 Y = 0,
-                Width = 40,
+                Width = 30,
                 Height = 10,
                 FontSize = 12,
                 RotationDeg = 0f
@@ -177,6 +175,13 @@ namespace LabelStudio.LabelDesigner.Forms
             printPreviewDialog1.Width = 1000;
             printPreviewDialog1.Height = 800;
             printPreviewDialog1.ShowDialog();
+
+
+        }
+
+        private void printDocument1_BeginPrint(object sender, PrintEventArgs e)
+        {
+            _pageIndex = 0;
         }
     }
 }
