@@ -44,27 +44,6 @@ namespace LabelStudio.LabelDesigner.Forms
                 MarginLeftMM = 0f,
                 MarginTopMM = 0f
             };
-
-            _template.Elements.Add(new LabelTextElement
-            {
-                Text = "Test Label",
-                X = 0.5f,
-                Y = 0.5f,
-                Width = 40,
-                Height = 10,
-                FontSize = 20
-            });
-
-            _template.Elements.Add(new LabelTextElement
-            {
-                Text = "Test Label2",
-                X = 0.5f,
-                Y = 41f,
-                Width = 30,
-                Height = 10,
-                FontSize = 12
-            });
-
         }
 
         private void panelDesigner_Paint(object sender, PaintEventArgs e)
@@ -88,21 +67,27 @@ namespace LabelStudio.LabelDesigner.Forms
                 {
                     DashStyle = System.Drawing.Drawing2D.DashStyle.Dash
                 };
+                var state = e.Graphics.Save();
+                e.Graphics.TranslateTransform(r.X + r.Width / 2, r.Y + r.Height / 2);
+                e.Graphics.RotateTransform(_selectedElement.RotationDeg);
+                e.Graphics.TranslateTransform(-(r.X + r.Width / 2), -(r.Y + r.Height / 2));
                 e.Graphics.DrawRectangle(pen, r.X, r.Y, r.Width, r.Height);
+                e.Graphics.Restore(state);
             }
         }
 
+        //Select element when clicked
         private void panelDesigner_MouseDown(object sender, MouseEventArgs e)
         {
             //Set previously selected element to null
             _selectedElement = null;
+            _dragging = false;
 
-            //Loop through all elements and select the one under the mouse cursor.
-            foreach (var element in _template.Elements)
+            //Reverse loop through all elements and select the one under the mouse cursor.
+            for (int i = _template.Elements.Count - 1; i >= 0; i--)
             {
-                var rect = _designRenderer.GetElementRect(element, _designDPI);
-
-                if (rect.Contains(e.Location))
+                var element = _template.Elements[i];
+                if(_designRenderer.HitTestElement(element, e.Location, _designDPI))
                 {
                     _selectedElement = element;
                     _dragging = true;
@@ -113,6 +98,7 @@ namespace LabelStudio.LabelDesigner.Forms
             panelDesigner.Invalidate();
         }
 
+        //Mouse dragging
         private void panelDesigner_MouseMove(object sender, MouseEventArgs e)
         {
             //Check if not dragging or if nothing is selected, do nothing if so.
@@ -131,16 +117,10 @@ namespace LabelStudio.LabelDesigner.Forms
             panelDesigner.Invalidate();
         }
 
+        //Set dragging to false on mouse up
         private void panelDesigner_MouseUp(object sender, MouseEventArgs e)
         {
             _dragging = false;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            printPreviewDialog1.Width = 1000;
-            printPreviewDialog1.Height = 800;
-            printPreviewDialog1.ShowDialog();
         }
 
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
@@ -171,19 +151,29 @@ namespace LabelStudio.LabelDesigner.Forms
             e.HasMorePages = false;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        // Right Click -> New Element -> Text
+        private void textToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _template.Elements.Add(new LabelTextElement
             {
-                Text = "Test Label23",
+                Text = "Unassigned Text Element",
                 X = 0.5f,
                 Y = 4f,
                 Width = 30,
                 Height = 10,
-                FontSize = 12
+                FontSize = 12,
+                RotationDeg = 90f
             });
 
             panelDesigner.Invalidate();
+        }
+
+        // File -> Print
+        private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            printPreviewDialog1.Width = 1000;
+            printPreviewDialog1.Height = 800;
+            printPreviewDialog1.ShowDialog();
         }
     }
 }

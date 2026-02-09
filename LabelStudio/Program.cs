@@ -12,6 +12,7 @@ namespace LabelStudio
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new LabelStudio.LabelDesigner.Forms.LabelDesigner());
+            //Application.Run(new LabelStudio.Database.Forms.DBViewerForm());
         }
     }
 }

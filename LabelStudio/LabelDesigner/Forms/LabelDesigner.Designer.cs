@@ -28,16 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LabelDesigner));
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
+            printPreviewToolStripMenuItem = new ToolStripMenuItem();
             editToolStripMenuItem = new ToolStripMenuItem();
             panelDesigner = new DoubleBufferedPanel();
+            designPanelContextMenuStrip = new ContextMenuStrip(components);
+            testToolStripMenuItem = new ToolStripMenuItem();
+            textToolStripMenuItem = new ToolStripMenuItem();
+            imageToolStripMenuItem = new ToolStripMenuItem();
             printPreviewDialog1 = new PrintPreviewDialog();
             printDocument1 = new System.Drawing.Printing.PrintDocument();
-            button1 = new Button();
-            button2 = new Button();
             menuStrip1.SuspendLayout();
+            designPanelContextMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -51,9 +56,17 @@
             // 
             // fileToolStripMenuItem
             // 
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { printPreviewToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
+            // 
+            // printPreviewToolStripMenuItem
+            // 
+            printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
+            printPreviewToolStripMenuItem.Size = new Size(99, 22);
+            printPreviewToolStripMenuItem.Text = "Print";
+            printPreviewToolStripMenuItem.Click += printPreviewToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
             // 
@@ -63,7 +76,8 @@
             // 
             // panelDesigner
             // 
-            panelDesigner.Location = new Point(58, 88);
+            panelDesigner.ContextMenuStrip = designPanelContextMenuStrip;
+            panelDesigner.Location = new Point(12, 27);
             panelDesigner.Name = "panelDesigner";
             panelDesigner.Size = new Size(574, 313);
             panelDesigner.TabIndex = 2;
@@ -71,6 +85,32 @@
             panelDesigner.MouseDown += panelDesigner_MouseDown;
             panelDesigner.MouseMove += panelDesigner_MouseMove;
             panelDesigner.MouseUp += panelDesigner_MouseUp;
+            // 
+            // designPanelContextMenuStrip
+            // 
+            designPanelContextMenuStrip.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem });
+            designPanelContextMenuStrip.Name = "contextMenuStrip1";
+            designPanelContextMenuStrip.Size = new Size(145, 26);
+            // 
+            // testToolStripMenuItem
+            // 
+            testToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { textToolStripMenuItem, imageToolStripMenuItem });
+            testToolStripMenuItem.Name = "testToolStripMenuItem";
+            testToolStripMenuItem.Size = new Size(144, 22);
+            testToolStripMenuItem.Text = "New Element";
+            // 
+            // textToolStripMenuItem
+            // 
+            textToolStripMenuItem.Name = "textToolStripMenuItem";
+            textToolStripMenuItem.Size = new Size(107, 22);
+            textToolStripMenuItem.Text = "Text";
+            textToolStripMenuItem.Click += textToolStripMenuItem_Click;
+            // 
+            // imageToolStripMenuItem
+            // 
+            imageToolStripMenuItem.Name = "imageToolStripMenuItem";
+            imageToolStripMenuItem.Size = new Size(107, 22);
+            imageToolStripMenuItem.Text = "Image";
             // 
             // printPreviewDialog1
             // 
@@ -87,33 +127,11 @@
             // 
             printDocument1.PrintPage += printDocument1_PrintPage;
             // 
-            // button1
-            // 
-            button1.Location = new Point(656, 184);
-            button1.Name = "button1";
-            button1.Size = new Size(100, 100);
-            button1.TabIndex = 3;
-            button1.Text = "Print Preview";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(659, 128);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 4;
-            button2.Text = "add text";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
             // LabelDesigner
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 862);
-            Controls.Add(button2);
-            Controls.Add(button1);
             Controls.Add(panelDesigner);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
@@ -121,6 +139,7 @@
             Text = "LabelDesigner";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            designPanelContextMenuStrip.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -133,7 +152,10 @@
         private DoubleBufferedPanel panelDesigner;
         private PrintPreviewDialog printPreviewDialog1;
         private System.Drawing.Printing.PrintDocument printDocument1;
-        private Button button1;
-        private Button button2;
+        private ContextMenuStrip designPanelContextMenuStrip;
+        private ToolStripMenuItem testToolStripMenuItem;
+        private ToolStripMenuItem textToolStripMenuItem;
+        private ToolStripMenuItem imageToolStripMenuItem;
+        private ToolStripMenuItem printPreviewToolStripMenuItem;
     }
 }

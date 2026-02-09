@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing.Drawing2D;
 
 namespace LabelStudio.LabelDesigner
 {
@@ -27,8 +28,23 @@ namespace LabelStudio.LabelDesigner
                 float h = MMtoPx(element.Height, dpi);
 
                 var rect = new RectangleF(x, y, w, h);
+
+                //Save graphics state
+                var state = g.Save(); 
+                //Translate to element center
+                g.TranslateTransform(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
+                //Rotate element
+                g.RotateTransform(element.RotationDeg);
+                //Reverse translation
+                g.TranslateTransform(-(rect.X + rect.Width / 2), -(rect.Y + rect.Height / 2));
+
+
+                //Draw black rectangle around element
                 g.DrawRectangle(Pens.Black, rect);
 
+                //Check element type
+
+                //Text element
                 if(element is LabelTextElement text)
                 {
                     using var font = new Font(
@@ -38,6 +54,15 @@ namespace LabelStudio.LabelDesigner
 
                     g.DrawString(text.Text, font, Brushes.Black, rect);
                 }
+
+                //Image element
+                if(element is LabelImageElement image)
+                {
+                    
+                }
+
+                // Restore graphics state
+                g.Restore(state); 
             }
         }
         
@@ -49,6 +74,20 @@ namespace LabelStudio.LabelDesigner
                 MMtoPx(el.Width, dpi),
                 MMtoPx(el.Height, dpi)
             );
+        }
+
+        public bool HitTestElement(LabelElement el, PointF mousePx, float dpi)
+        {
+            RectangleF rect = GetElementRect(el, dpi);
+
+            float cx = rect.X + rect.Width / 2f;
+            float cy = rect.Y + rect.Height / 2f;
+
+            using var matrix = new Matrix();
+            matrix.RotateAt(-el.RotationDeg, new PointF(cx, cy));
+            PointF[] pts = { mousePx };
+            matrix.TransformPoints(pts);
+            return rect.Contains(pts[0]);
         }
     }
 }

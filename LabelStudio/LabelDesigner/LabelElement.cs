@@ -10,6 +10,7 @@ namespace LabelStudio.LabelDesigner
         public float Y { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
+        public float RotationDeg { get; set; }
     }
 
     public class LabelTextElement : LabelElement
