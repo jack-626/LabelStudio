@@ -15,6 +15,11 @@ namespace LabelStudio.LabelDesigner
             return mm / mmPerInch * dpi;
         }
 
+        public static float PxtoMM(float px, float dpi)
+        {
+            return px * mmPerInch / dpi;
+        }
+
         // Draw all elements. 
         public void DrawElements(Graphics g, float dpi, LabelTemplate template, float offsetX, float offsetY)
         {
@@ -43,7 +48,6 @@ namespace LabelStudio.LabelDesigner
                 g.DrawRectangle(Pens.Black, rect);
 
                 //Check element type
-
                 //Text element
                 if(element is LabelTextElement text)
                 {
@@ -88,6 +92,65 @@ namespace LabelStudio.LabelDesigner
             PointF[] pts = { mousePx };
             matrix.TransformPoints(pts);
             return rect.Contains(pts[0]);
+        }
+
+        public PointF[] GetCorners(RectangleF rect, float rotationDeg)
+        {
+            float cx = rect.X + rect.Width / 2f;
+            float cy = rect.Y + rect.Height / 2f;
+
+            PointF[] corners =
+            {
+                new PointF(rect.Left, rect.Top),
+                new PointF(rect.Right, rect.Top),
+                new PointF(rect.Right, rect.Bottom),
+                new PointF(rect.Left, rect.Bottom)
+            };
+
+            using var m = new Matrix();
+            m.RotateAt(rotationDeg, new PointF(cx, cy));
+            m.TransformPoints(corners);
+
+            return corners;
+        }
+
+        public void ClampToLabel(LabelElement el, LabelTemplate template, float dpi)
+        {
+            RectangleF elementRect = GetElementRect(el, dpi);
+            RectangleF labelRect = new RectangleF(
+                0,
+                0,
+                MMtoPx(template.LabelWidth, dpi),
+                MMtoPx(template.LabelHeight, dpi)
+            );
+
+            PointF[] corners = GetCorners(elementRect, el.RotationDeg);
+
+            float dx = 0;
+            float dy = 0;
+
+            foreach (var point in corners)
+            {
+                if (point.X < labelRect.Left)
+                {
+                    dx = Math.Max(dx, labelRect.Left - point.X);
+                }
+                if (point.X > labelRect.Right)
+                {
+                    dx = Math.Min(dx, labelRect.Right - point.X);
+                }
+                if (point.Y < labelRect.Top)
+                {
+                    dy = Math.Max(dy, labelRect.Top - point.Y);
+                }
+                if (point.Y > labelRect.Bottom)
+                {
+                    dy = Math.Min(dy, labelRect.Bottom - point.Y);
+                }
+            }
+
+            el.X += PxtoMM(dx, dpi);
+            el.Y += PxtoMM(dy, dpi);
         }
     }
 }

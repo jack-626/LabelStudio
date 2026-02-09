@@ -35,10 +35,10 @@ namespace LabelStudio.LabelDesigner.Forms
         {
             _template = new LabelTemplate
             {
-                LabelWidth = 40f,
-                LabelHeight = 136f,
-                Columns = 5,
-                Rows = 2,
+                LabelWidth = 100f,
+                LabelHeight = 50f,
+                Columns = 2,
+                Rows = 5,
                 GapXmm = 0f,
                 GapYmm = 0f,
                 MarginLeftMM = 0f,
@@ -114,6 +114,9 @@ namespace LabelStudio.LabelDesigner.Forms
             _selectedElement.Y += dy;
 
             _lastMouse = e.Location;
+
+            _designRenderer.ClampToLabel(_selectedElement, _template, _designDPI);
+
             panelDesigner.Invalidate();
         }
 
@@ -157,12 +160,12 @@ namespace LabelStudio.LabelDesigner.Forms
             _template.Elements.Add(new LabelTextElement
             {
                 Text = "Unassigned Text Element",
-                X = 0.5f,
-                Y = 4f,
-                Width = 30,
+                X = 0,
+                Y = 0,
+                Width = 40,
                 Height = 10,
                 FontSize = 12,
-                RotationDeg = 90f
+                RotationDeg = 0f
             });
 
             panelDesigner.Invalidate();
