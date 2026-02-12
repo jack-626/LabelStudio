@@ -1,4 +1,4 @@
-﻿namespace LabelStudio.Database.Forms
+﻿namespace LabelStudio.Databases.Forms
 {
     partial class DBViewerForm
     {

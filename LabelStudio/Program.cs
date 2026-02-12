@@ -11,8 +11,10 @@ namespace LabelStudio
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+            new LabelStudio.Databases.Forms.DBViewerForm().Show();
             Application.Run(new LabelStudio.LabelDesigner.Forms.LabelDesigner());
-            //Application.Run(new LabelStudio.Database.Forms.DBViewerForm());
+            //Application.Run(new LabelStudio.Databases.Forms.DBViewerForm());
+            
         }
     }
 }

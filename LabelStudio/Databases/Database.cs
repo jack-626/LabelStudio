@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Xml.Linq;
 
-namespace LabelStudio.Database
+namespace LabelStudio.Databases
 {
     public class Database
     {
@@ -143,7 +143,7 @@ namespace LabelStudio.Database
                     using var cmd = connection.CreateCommand();
                     cmd.CommandText = "DELETE FROM Plants WHERE ID = $id";
                     cmd.Parameters.AddWithValue("$id", id);
-                    
+                    cmd.ExecuteNonQuery();
                     /* For debug only - 1 is success, 0 is fail. 
                     int result = cmd.ExecuteNonQuery();
                     MessageBox.Show(Convert.ToString(result));
@@ -152,6 +152,25 @@ namespace LabelStudio.Database
             } catch (Exception ex)
             {
                 Debug.WriteLine("[ERROR] " + ex.Message);
+            }
+        }
+
+        public string GetColumnValueByID(int id, string column)
+        {
+            try
+            {
+                using (var connection = new SQLiteConnection($"Data Source={_dbPath}"))
+                {
+                    connection.Open();
+                    using var cmd = connection.CreateCommand();
+                    cmd.CommandText = $@"SELECT [{column}] FROM [Plants] WHERE ID = @ID";
+                    cmd.Parameters.AddWithValue("@ID", id);
+                    return (string)cmd.ExecuteScalar();
+                }
+            } catch (Exception ex)
+            {
+                Debug.WriteLine("[ERROR] " + ex.Message);
+                return null;
             }
         }
     }

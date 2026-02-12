@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace LabelStudio.LabelDesigner
@@ -11,16 +12,24 @@ namespace LabelStudio.LabelDesigner
         public float Width { get; set; }
         public float Height { get; set; }
         public float RotationDeg { get; set; }
+        public string DataType { get; set; }
     }
 
     public class LabelTextElement : LabelElement
     {
-        
-        public string Text { get; set; }
+        public string Data { get; set; }
         public float FontSize { get; set; }
         public string FontName { get; set; }
         public bool Bold { get; set; }
         public bool Italics { get; set; }
+        public string GetTextFromData(DataRow row)
+        {
+            if(!string.IsNullOrEmpty(Data) && row != null && row.Table.Columns.Contains(Data))
+            {
+                return row[Data]?.ToString();
+            }
+            return string.Empty;
+        }
     }
 
     public class LabelImageElement : LabelElement

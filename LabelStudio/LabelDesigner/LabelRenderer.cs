@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing.Drawing2D;
+using LabelStudio.Databases;
+using System.Data;
 
 namespace LabelStudio.LabelDesigner
 {
@@ -21,7 +23,7 @@ namespace LabelStudio.LabelDesigner
         }
 
         // Draw all elements. 
-        public void DrawElements(Graphics g, float dpi, LabelTemplate template, float offsetX, float offsetY)
+        public void DrawElements(Graphics g, float dpi, LabelTemplate template, float offsetX, float offsetY, DataRow data = null)
         {
             g.PageUnit = GraphicsUnit.Pixel;
 
@@ -55,7 +57,15 @@ namespace LabelStudio.LabelDesigner
                         text.FontSize,
                         FontStyle.Regular);
 
-                    g.DrawString(text.Text, font, Brushes.Black, rect);
+                    string value;
+                    if(data != null)
+                    {
+                        value = text.GetTextFromData(data);
+                    } else
+                    {
+                        value = text.DataType;
+                    }
+                    g.DrawString(value, font, Brushes.Black, rect);
                 }
 
                 //Image element

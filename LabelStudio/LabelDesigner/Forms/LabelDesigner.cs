@@ -19,6 +19,7 @@ namespace LabelStudio.LabelDesigner.Forms
         private Point _lastMouse;
         private const float _designDPI = 96f;
         private LabelRenderer _designRenderer = new LabelRenderer();
+        private PrintQueue queue = new PrintQueue();
 
         public LabelDesigner()
         {
@@ -35,6 +36,30 @@ namespace LabelStudio.LabelDesigner.Forms
             //set panel size using template scale
             panelDesigner.Width = (int)LabelRenderer.MMtoPx(_template.LabelWidth, _designDPI);
             panelDesigner.Height = (int)LabelRenderer.MMtoPx(_template.LabelHeight, _designDPI);
+
+
+            queue = new PrintQueue
+            {
+                Template = _template
+            };
+
+            queue.Plants.Add(new Databases.Plant
+            {
+                ID = 0,
+                Type = "Test 1"
+            });
+
+            queue.Plants.Add(new Databases.Plant
+            {
+                ID = 3,
+                Type = "Test 2"
+            });
+
+            queue.Plants.Add(new Databases.Plant
+            {
+                ID = 2,
+                Type = "Test 3"
+            });
         }
 
         private void InitTemplate()
@@ -47,7 +72,7 @@ namespace LabelStudio.LabelDesigner.Forms
                 Rows = 2,
                 GapX = 1f,
                 GapY = 2f,
-                MarginLeft = 2f,
+                MarginLeft = 3f,
                 MarginTop = 10f
             };
         }
@@ -132,21 +157,20 @@ namespace LabelStudio.LabelDesigner.Forms
             _dragging = false;
         }
 
-
         private int _pageIndex;
         private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
         {
-
             var printRenderer = new PrintRenderer();
             //printRenderer.DrawPage(e.Graphics, e.Graphics.DpiX, _template, true);
             //e.HasMorePages = false;
+
             if (_pageIndex == 0)
             {
-                printRenderer.DrawPage(e.Graphics, e.Graphics.DpiX, _template, true);
+                printRenderer.DrawPage(e.Graphics, e.Graphics.DpiX, _template, true, queue);
             }
             else if (_pageIndex == 1)
             {
-                printRenderer.DrawPage(e.Graphics, e.Graphics.DpiX, _template, false);
+                printRenderer.DrawPage(e.Graphics, e.Graphics.DpiX, _template, true, queue);
             }
             _pageIndex++;
             e.HasMorePages = _pageIndex < 2;
@@ -157,7 +181,7 @@ namespace LabelStudio.LabelDesigner.Forms
         {
             _template.Elements.Add(new LabelTextElement
             {
-                Text = "Unassigned Text Element",
+                DataType = "Unassigned Text Element",
                 X = 0,
                 Y = 0,
                 Width = 30,
@@ -175,13 +199,31 @@ namespace LabelStudio.LabelDesigner.Forms
             printPreviewDialog1.Width = 1000;
             printPreviewDialog1.Height = 800;
             printPreviewDialog1.ShowDialog();
-
-
         }
 
         private void printDocument1_BeginPrint(object sender, PrintEventArgs e)
         {
             _pageIndex = 0;
+        }
+
+        private void panelDesigner_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (_selectedElement != null)
+            {
+                if(_selectedElement is LabelTextElement _element)
+                {
+                    using (var form = new EditTextElement(_element))
+                    {
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            panelDesigner.Invalidate();
+                        }
+                    }
+                } else if (_selectedElement is LabelImageElement)
+                {
+                    // edit image form
+                }
+            }
         }
     }
 }

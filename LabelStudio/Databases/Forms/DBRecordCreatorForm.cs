@@ -1,4 +1,4 @@
-﻿using LabelStudio.Database;
+﻿using LabelStudio.Databases;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LabelStudio.Database.Forms
+namespace LabelStudio.Databases.Forms
 {
     public partial class DBRecordCreatorForm : Form
     {

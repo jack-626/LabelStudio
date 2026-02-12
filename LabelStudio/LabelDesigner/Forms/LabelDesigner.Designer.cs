@@ -82,6 +82,7 @@
             panelDesigner.Size = new Size(776, 823);
             panelDesigner.TabIndex = 2;
             panelDesigner.Paint += panelDesigner_Paint;
+            panelDesigner.MouseDoubleClick += panelDesigner_MouseDoubleClick;
             panelDesigner.MouseDown += panelDesigner_MouseDown;
             panelDesigner.MouseMove += panelDesigner_MouseMove;
             panelDesigner.MouseUp += panelDesigner_MouseUp;

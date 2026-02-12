@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace LabelStudio.Database.Forms
+namespace LabelStudio.Databases.Forms
 {
     public partial class DBViewerForm : Form
     {

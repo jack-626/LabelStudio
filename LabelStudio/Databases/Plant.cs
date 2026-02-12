@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LabelStudio.Database
+namespace LabelStudio.Databases
 {
     public class Plant
     {

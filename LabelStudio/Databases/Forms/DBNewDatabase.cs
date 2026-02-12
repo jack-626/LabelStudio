@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace LabelStudio.Database.Forms
+namespace LabelStudio.Databases.Forms
 {
     public partial class DBNewDatabase : Form
     {
